@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hirer Profile</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f2f5 0%, #e6e9ed 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .main-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e6ed;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Slightly more prominent shadow for professional look */
+            border-radius: 1.25rem;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 800px; /* Increased max-width for more content */
+            text-align: center;
+        }
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #3b82f6; /* Professional blue border */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin: 0 auto 1.5rem auto;
+        }
+        .profile-detail-item {
+            background-color: #f8f9fb;
+            border: 1px solid #dbe2ea;
+            padding: 1rem;
+            border-radius: 0.625rem;
+            text-align: left; /* Default left alignment for most items */
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+        }
+        .profile-detail-item .label {
+            font-weight: 500;
+            color: #3b82f6; /* Applying the blue color to labels */
+        }
+        .profile-detail-item .value { /* Targetting the value text directly */
+            color: #1f2937; /* Setting value text to black/dark grey */
+        }
+        .action-button {
+            background: linear-gradient(45deg, #3b82f6 0%, #2563eb 100%); /* Professional blue gradient */
+            color: white;
+            font-weight: 600;
+            padding: 0.85rem 1.75rem; /* Consistent padding for both buttons */
+            border-radius: 0.625rem;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.35);
+        }
+        .secondary-button {
+            background-color: #6c757d; /* Grey for secondary actions */
+            color: white;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.625rem;
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.25);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .secondary-button:hover {
+            transform: translateY(-2px);
+            background-color: #5a6268;
+            box-shadow: 0 6px 15px rgba(108, 117, 125, 0.35);
+        }
+        .text-blue-main { color: #3b82f6; } /* Consistent blue for links and accents */
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .search-section {
+            background-color: #f8f9fb;
+            border: 1px solid #dbe2ea;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem; /* Added margin-bottom for spacing */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+        .search-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+        .rating-stars {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .star-icon {
+            color: #FFD700; /* Gold color for stars */
+            font-size: 1.25rem;
+        }
+        .star-icon.empty {
+            color: #d1d5db; /* Grey for empty stars */
+        }
+
+        /* Profile picture edit specific styles (for hirer profile) */
+        .profile-picture-edit-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .profile-picture-preview {
+            width: 120px; /* Larger preview */
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #4a90e2;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        .change-photo-button {
+            background-color: #6c757d; /* Grey button for secondary action */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .change-photo-button:hover {
+            background-color: #5a6268;
+        }
+
+        /* Styling for edit form rows to ensure proper alignment */
+        .edit-form-row {
+            display: flex;
+            flex-direction: column; /* Stack label and input on small screens */
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            text-align: left; /* Align text to left within form rows */
+            background-color: #f8f9fb; /* Light background for edit rows */
+            border: 1px solid #dbe2ea; /* Subtle border */
+            border-radius: 0.625rem;
+            padding: 0.75rem 1rem; /* Padding inside the row */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        /* Focus state for edit form rows */
+        .edit-form-row:focus-within {
+            border-color: #3b82f6; /* Blue border on focus */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* Blue ring on focus */
+        }
+
+        .edit-form-row label {
+            font-weight: 500;
+            color: #3b82f6; /* Applying blue color to labels in edit mode */
+            margin-bottom: 0.25rem; /* Space between label and input on stacked layout */
+        }
+
+        .edit-form-row .input-field {
+            border: none; /* Remove individual input field border */
+            background-color: transparent; /* Make input background transparent */
+            padding: 0.25rem 0; /* Adjust padding for input field inside row */
+        }
+        .edit-form-row .input-field:focus {
+            outline: none;
+            box-shadow: none; /* Remove default focus outline/shadow from input itself */
+        }
+
+        @media (min-width: 640px) { /* Tailwind's sm breakpoint */
+            .edit-form-row {
+                flex-direction: row; /* Side-by-side on larger screens */
+                align-items: center;
+                padding: 1rem 1.5rem; /* More padding on larger screens */
+            }
+            .edit-form-row label {
+                min-width: 120px; /* Align labels */
+                margin-right: 1rem;
+                text-align: right; /* Align labels to the right */
+                margin-bottom: 0; /* Remove bottom margin when side-by-side */
+            }
+            .edit-form-row .input-field {
+                padding: 0.5rem 0.75rem; /* Restore input padding for larger screens */
+            }
+        }
+
+        /* Custom Scrollbar for About Us section */
+        .about-us-scrollable {
+            max-height: 120px; /* Limit height to enable scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding-right: 8px; /* Space for the scrollbar */
+            box-sizing: border-box; /* Include padding in element's total width/height */
+            /* Apply custom scrollbar styles */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #888 #f1f1f1; /* thumb color track color */
+        }
+
+        /* Webkit-specific scrollbar styling */
+        .about-us-scrollable::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
+
+        .about-us-scrollable::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Color of the track */
+            border-radius: 10px;
+        }
+
+        .about-us-scrollable::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scroll thumb */
+            border-radius: 10px;
+        }
+
+        .about-us-scrollable::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Color of the scroll thumb on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="main-card">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center justify-center">
+            <svg class="w-6 h-6 mr-2 text-blue-main" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2m3-10v4m0 0l3-3m-3 3l-3-3m-3 3h6"></path></svg>
+            Hirer Profile
+        </h2>
+        
+        <img id="hirerDisplayPhoto" src="https://placehold.co/150x150/3b82f6/FFFFFF?text=Hirer" alt="Hirer Profile Photo" class="profile-photo">
+        <h3 class="text-xl font-bold text-blue-main mb-2" id="hirerDisplayName">Vishal Kumar</h3>
+        <p class="text-blue-main mb-4" id="hirerDisplayTagline">Our goal is to connect skilled electricians with every neighborhood that needs them</p>
+
+        <!-- Search for Workers Section -->
+        <div class="search-section">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Search for Workers</h3>
+            <div class="space-y-4">
+                <div>
+                    <label for="professionSearch" class="block text-gray-700 text-sm font-medium mb-1">Search by Profession:</label>
+                    <input type="text" id="professionSearch" class="search-input" placeholder="e.g., Electrician, Plumber, Painter">
+                </div>
+                <div>
+                    <label for="minRating" class="block text-gray-700 text-sm font-medium mb-1">Minimum Rating:</label>
+                    <select id="minRating" class="search-input">
+                        <option value="0">Any Rating</option>
+                        <option value="1">★ & Up</option>
+                        <option value="2">★★ & Up</option>
+                        <option value="3">★★★ & Up</option>
+                        <option value="4">★★★★ & Up</option>
+                        <option value="5">★★★★★</option>
+                    </select>
+                </div>
+                <button class="action-button w-full" onclick="performWorkerSearch();">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    Search Workers
+                </button>
+            </div>
+        </div>
+
+        <!-- Hirer Details Display Mode -->
+        <div id="hirerDetails" class="grid grid-cols-2 gap-4 w-full text-left mb-6">
+            <div class="profile-detail-item">
+                <p class="label">Company:</p>
+                <p class="value text-sm" id="hirerCompanyName">Homefix Electricals</p>
+            </div>
+            <div class="profile-detail-item">
+                <p class="label">Industry:</p>
+                <p class="value text-sm" id="hirerIndustry">Electrical services</p>
+            </div>
+            <div class="profile-detail-item">
+                <p class="label">Contact Email:</p>
+                <p class="value text-sm"><a href="vishal@example.com" id="hirerContactEmail" class="text-blue-main hover:underline">vishal@example.com</a></p>
+            </div>
+            <div class="profile-detail-item">
+                <p class="label">Contact Phone:</p>
+                <p class="value text-sm" id="hirerContactPhone">9876543820</p>
+            </div>
+            <div class="profile-detail-item col-span-full">
+                <p class="label">About Us:</p>
+                <p class="value text-sm about-us-scrollable" id="hirerAboutUs">HomeFix Electricals is a trusted name for residential and commercial electrical solutions in Hyderabad. With 8+ years of experience, we ensure safe, efficient, and affordable services.</p>
+            </div>
+            <!-- Location section moved to be a full-width item and its text is left-aligned -->
+            <div class="profile-detail-item col-span-full">
+                <p class="label">Location:</p>
+                <p class="value text-sm" id="hirerLocation">Visakhapatnam</p>
+            </div>
+        </div>
+
+        <!-- Hirer Details Edit Mode -->
+        <div id="hirerEditForm" class="space-y-4 text-gray-700 hidden">
+            <div class="profile-picture-edit-container">
+                <img id="hirerPicturePreview" src="https://placehold.co/120x120/3b82f6/FFFFFF?text=Hirer" alt="Hirer Photo Preview" class="profile-picture-preview">
+                <input type="file" id="hirerPictureInput" accept="image/*" class="hidden">
+                <button type="button" id="changeHirerPhotoButton" class="change-photo-button">Change Photo</button>
+            </div>
+            <div class="edit-form-row">
+                <label for="editHirerName" class="block text-sm font-medium">Name</label>
+                <input type="text" id="editHirerName" class="input-field" value="Vishal">
+            </div>
+            <div class="edit-form-row">
+                <label for="editHirerTagline" class="block text-sm font-medium">Tagline</label>
+                <input type="text" id="editHirerTagline" class="input-field" value="Dedicated to finding top talent for your projects.">
+            </div>
+            <div class="edit-form-row">
+                <label for="editHirerCompany" class="block text-sm font-medium">Company</label>
+                <input type="text" id="editHirerCompany" class="input-field" value="HomeFix Electricals.">
+            </div>
+            <div class="edit-form-row">
+                <label for="editHirerIndustry" class="block text-sm font-medium">Industry</label>
+                <input type="text" id="editHirerIndustry" class="input-field" value="Electrical services">
+            </div>
+            <div class="edit-form-row">
+                <label for="editHirerEmail" class="block text-sm font-medium">Contact Email</label>
+                <input type="email" id="editHirerEmail" class="input-field" value="vishal@example.com">
+            </div>
+            <div class="edit-form-row">
+                <label for="editHirerPhone" class="block text-sm font-medium">Contact Phone</label>
+                <input type="text" id="editHirerPhone" class="input-field" value="919876543820">
+            </div>
+            <div class="edit-form-row">
+                <label for="editHirerAboutUs" class="block text-sm font-medium">About Us</label>
+                <textarea id="editHirerAboutUs" rows="3" class="input-field about-us-scrollable">HomeFix Electricals is a trusted name for residential and commercial electrical solutions in Hyderabad. With 8+ years of experience, we ensure safe, efficient, and affordable services.</textarea>
+            </div>
+            <div class="edit-form-row">
+                <label for="editHirerLocation" class="block text-sm font-medium">Location</label>
+                <input type="text" id="editHirerLocation" class="input-field" value="Visakhapatnam">
+            </div>
+        </div>
+
+        <div class="mt-8 flex justify-center"> <!-- Removed space-x-4 to allow vertical stacking -->
+            <button id="toggleEditHirerProfile" class="action-button w-full sm:w-auto"> <!-- Removed mb-4 as it's the only button now -->
+                Edit Profile
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Get elements for display mode
+        const hirerDisplayPhoto = document.getElementById('hirerDisplayPhoto');
+        const hirerDisplayName = document.getElementById('hirerDisplayName');
+        const hirerDisplayTagline = document.getElementById('hirerDisplayTagline');
+        const hirerCompanyName = document.getElementById('hirerCompanyName');
+        const hirerIndustry = document.getElementById('hirerIndustry');
+        const hirerContactEmail = document.getElementById('hirerContactEmail');
+        const hirerContactPhone = document.getElementById('hirerContactPhone');
+        const hirerAboutUs = document.getElementById('hirerAboutUs');
+        const hirerLocation = document.getElementById('hirerLocation');
+
+        // Get elements for edit mode
+        const hirerDetails = document.getElementById('hirerDetails');
+        const hirerEditForm = document.getElementById('hirerEditForm');
+        const toggleEditHirerProfileButton = document.getElementById('toggleEditHirerProfile');
+
+        const hirerPicturePreview = document.getElementById('hirerPicturePreview');
+        const hirerPictureInput = document.getElementById('hirerPictureInput');
+        const changeHirerPhotoButton = document.getElementById('changeHirerPhotoButton');
+
+        const editHirerName = document.getElementById('editHirerName');
+        const editHirerTagline = document.getElementById('editHirerTagline');
+        const editHirerCompany = document.getElementById('editHirerCompany');
+        const editHirerIndustry = document.getElementById('editHirerIndustry');
+        const editHirerEmail = document.getElementById('editHirerEmail');
+        const editHirerPhone = document.getElementById('editHirerPhone');
+        const editHirerAboutUs = document.getElementById('editHirerAboutUs');
+        const editHirerLocation = document.getElementById('editHirerLocation');
+
+
+        function performWorkerSearch() {
+            const profession = document.getElementById('professionSearch').value;
+            const minRating = document.getElementById('minRating').value;
+            alert(`Searching for workers:\nProfession: ${profession || 'Any'}\nMinimum Rating: ${minRating || 'Any'}`);
+            // In a real application, this would trigger an "API call" to search for workers
+            // and display the results on this page or a new page.
+        }
+
+        // Toggle Edit Profile functionality for Hirer
+        toggleEditHirerProfileButton.addEventListener('click', function() {
+            if (hirerDetails.classList.contains('hidden')) {
+                // Currently in edit mode, switch to view mode (simulate save)
+                hirerDetails.classList.remove('hidden');
+                hirerEditForm.classList.add('hidden');
+                toggleEditHirerProfileButton.textContent = 'Edit Profile';
+
+                // Update display values with edited values
+                hirerDisplayName.textContent = editHirerName.value;
+                hirerDisplayTagline.textContent = editHirerTagline.value;
+                hirerCompanyName.textContent = editHirerCompany.value;
+                hirerIndustry.textContent = editHirerIndustry.value;
+                hirerContactEmail.textContent = editHirerEmail.value;
+                hirerContactEmail.href = `mailto:${editHirerEmail.value}`;
+                hirerContactPhone.textContent = editHirerPhone.value;
+                hirerAboutUs.textContent = editHirerAboutUs.value;
+                hirerLocation.textContent = editHirerLocation.value;
+
+                // Update hirer display photo with preview photo
+                hirerDisplayPhoto.src = hirerPicturePreview.src;
+
+            } else {
+                // Currently in view mode, switch to edit mode
+                hirerDetails.classList.add('hidden');
+                hirerEditForm.classList.remove('hidden');
+                toggleEditHirerProfileButton.textContent = 'Save Changes';
+
+                // Populate edit form with current display values
+                editHirerName.value = hirerDisplayName.textContent;
+                editHirerTagline.value = hirerDisplayTagline.textContent;
+                editHirerCompany.value = hirerCompanyName.textContent;
+                editHirerIndustry.value = hirerIndustry.textContent;
+                editHirerEmail.value = hirerContactEmail.textContent;
+                editHirerPhone.value = hirerContactPhone.textContent;
+                editHirerAboutUs.value = hirerAboutUs.textContent;
+                editHirerLocation.value = hirerLocation.textContent;
+
+                // Set preview to current display photo
+                hirerPicturePreview.src = hirerDisplayPhoto.src;
+            }
+        });
+
+        // Trigger file input when "Change Photo" button is clicked for Hirer Profile
+        changeHirerPhotoButton.addEventListener('click', function() {
+            hirerPictureInput.click();
+        });
+
+        // Handle file selection for Hirer Profile picture
+        hirerPictureInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    hirerPicturePreview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

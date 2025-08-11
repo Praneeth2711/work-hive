@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Worker Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8">Worker Profile Test</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Test Links</h2>
+            <div class="space-y-2">
+                <a href="worker-profile.html?phone=9876543210" class="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center">
+                    Test with Phone: 9876543210
+                </a>
+                <a href="worker-profile.html?phone=1234567890" class="block bg-green-500 text-white p-3 rounded hover:bg-green-600 text-center">
+                    Test with Phone: 1234567890
+                </a>
+                <a href="worker-profile.html" class="block bg-red-500 text-white p-3 rounded hover:bg-red-600 text-center">
+                    Test without Phone (should redirect)
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Instructions</h2>
+            <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                <li>Click on one of the test links above</li>
+                <li>Open browser Developer Tools (F12)</li>
+                <li>Go to the Console tab</li>
+                <li>You should see console logs showing the dynamic data loading</li>
+                <li>The page should display different information based on the phone number</li>
+            </ol>
+            
+            <div class="mt-4 p-4 bg-yellow-100 rounded">
+                <p class="font-semibold">Expected Behavior:</p>
+                <ul class="list-disc list-inside mt-2 text-sm">
+                    <li>Welcome message should change to "Welcome, John Doe!"</li>
+                    <li>Profile photo should show "JD" initials</li>
+                    <li>Profile details should show Mumbai location and john.doe@example.com</li>
+                    <li>Work history should show the mock entries</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
